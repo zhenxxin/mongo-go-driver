@@ -15,6 +15,7 @@ import (
 	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
 	"github.com/mongodb/mongo-go-driver/x/mongo/driver/uuid"
 	"github.com/stretchr/testify/require"
+	testhelpers "github.com/mongodb/mongo-go-driver/internal/testutil/helpers"
 )
 
 var consistent = true

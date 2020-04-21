@@ -19,6 +19,7 @@ import (
 	"github.com/mongodb/mongo-go-driver/bson/bsonrw"
 	"github.com/mongodb/mongo-go-driver/bson/bsontype"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/mongodb/mongo-go-driver/bson/util"
 	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
 )
 
@@ -88,7 +89,7 @@ func (dvd DefaultValueDecoders) RegisterDefaultDecoders(rb *RegistryBuilder) {
 		RegisterTypeMapEntry(bsontype.Undefined, tUndefined).
 		RegisterTypeMapEntry(bsontype.ObjectID, tOID).
 		RegisterTypeMapEntry(bsontype.Boolean, tBool).
-		RegisterTypeMapEntry(bsontype.DateTime, tDateTime).
+		RegisterTypeMapEntry(bsontype.DateTime, tTime).
 		RegisterTypeMapEntry(bsontype.Regex, tRegex).
 		RegisterTypeMapEntry(bsontype.DBPointer, tDBPointer).
 		RegisterTypeMapEntry(bsontype.JavaScript, tJavaScript).
@@ -601,20 +602,32 @@ func (dvd DefaultValueDecoders) URLDecodeValue(dc DecodeContext, vr bsonrw.Value
 
 // TimeDecodeValue is the ValueDecoderFunc for time.Time.
 func (dvd DefaultValueDecoders) TimeDecodeValue(dc DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error {
-	if vr.Type() != bsontype.DateTime {
+	if vr.Type() != bsontype.DateTime && vr.Type() != bsontype.String {
 		return fmt.Errorf("cannot decode %v into a time.Time", vr.Type())
 	}
-
-	dt, err := vr.ReadDateTime()
-	if err != nil {
-		return err
-	}
-
 	if !val.CanSet() || val.Type() != tTime {
 		return ValueDecoderError{Name: "TimeDecodeValue", Types: []reflect.Type{tTime}, Received: val}
 	}
 
-	val.Set(reflect.ValueOf(time.Unix(dt/1000, dt%1000*1000000)))
+	if vr.Type() == bsontype.DateTime {
+		dt, err := vr.ReadDateTime()
+		if err != nil {
+			return err
+		}
+
+		val.Set(reflect.ValueOf(time.Unix(dt/1000, dt%1000*1000000)))
+	} else {
+		dt, err := vr.ReadString()
+		if err != nil {
+			return err
+		}
+		vTime, err := time.Parse(time.RFC3339, dt)
+		if err != nil {
+			return fmt.Errorf("cannot decode %v into a time.Time", vr.Type())
+		}
+		val.Set(reflect.ValueOf(vTime))
+	}
+
 	return nil
 }
 
@@ -647,7 +660,16 @@ func (dvd DefaultValueDecoders) ByteSliceDecodeValue(dc DecodeContext, vr bsonrw
 
 // MapDecodeValue is the ValueDecoderFunc for map[string]* types.
 func (dvd DefaultValueDecoders) MapDecodeValue(dc DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error {
-	if !val.CanSet() || val.Kind() != reflect.Map || val.Type().Key().Kind() != reflect.String {
+	if !val.CanSet() {
+		return ValueDecoderError{Name: "MapDecodeValue", Kinds: []reflect.Kind{reflect.Map}, Received: val}
+	}
+
+	oldVal := val
+	if util.IsInterface(val.Type()) {
+		val = reflect.New(util.MapType).Elem()
+	}
+
+	if val.Kind() != reflect.Map || val.Type().Key().Kind() != reflect.String {
 		return ValueDecoderError{Name: "MapDecodeValue", Kinds: []reflect.Kind{reflect.Map}, Received: val}
 	}
 
@@ -698,6 +720,7 @@ func (dvd DefaultValueDecoders) MapDecodeValue(dc DecodeContext, vr bsonrw.Value
 
 		val.SetMapIndex(reflect.ValueOf(key).Convert(keyType), elem)
 	}
+	oldVal.Set(val)
 	return nil
 }
 
@@ -710,7 +733,9 @@ func (dvd DefaultValueDecoders) ArrayDecodeValue(dc DecodeContext, vr bsonrw.Val
 	switch vr.Type() {
 	case bsontype.Array:
 	case bsontype.Type(0), bsontype.EmbeddedDocument:
-		if val.Type().Elem() != tE {
+		if util.ExtendEmbeddedDocumentDecoder(vr.Type(), val) {
+			return dvd.MapDecodeValue(dc, vr, val)
+		} else if val.Type().Elem() != tE {
 			return fmt.Errorf("cannot decode document into %s", val.Type())
 		}
 	default:
@@ -753,7 +778,9 @@ func (dvd DefaultValueDecoders) SliceDecodeValue(dc DecodeContext, vr bsonrw.Val
 		val.Set(reflect.Zero(val.Type()))
 		return vr.ReadNull()
 	case bsontype.Type(0), bsontype.EmbeddedDocument:
-		if val.Type().Elem() != tE {
+		if util.ExtendEmbeddedDocumentDecoder(vr.Type(), val) {
+			return dvd.MapDecodeValue(dc, vr, val)
+		} else if val.Type().Elem() != tE {
 			return fmt.Errorf("cannot decode document into %s", val.Type())
 		}
 	default:
@@ -856,6 +883,10 @@ func (dvd DefaultValueDecoders) EmptyInterfaceDecodeValue(dc DecodeContext, vr b
 		return ValueDecoderError{Name: "EmptyInterfaceDecodeValue", Types: []reflect.Type{tEmpty}, Received: val}
 	}
 
+	if util.ExtendEmbeddedDocumentDecoder(vr.Type(), val) {
+		return dvd.MapDecodeValue(dc, vr, val)
+	}
+
 	rtype, err := dc.LookupTypeMapEntry(vr.Type())
 	if err != nil {
 		switch vr.Type() {
@@ -890,6 +921,7 @@ func (dvd DefaultValueDecoders) EmptyInterfaceDecodeValue(dc DecodeContext, vr b
 
 // CoreDocumentDecodeValue is the ValueDecoderFunc for bsoncore.Document.
 func (DefaultValueDecoders) CoreDocumentDecodeValue(dc DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error {
+
 	if !val.CanSet() || val.Type() != tCoreDocument {
 		return ValueDecoderError{Name: "CoreDocumentDecodeValue", Types: []reflect.Type{tCoreDocument}, Received: val}
 	}
@@ -983,6 +1015,34 @@ func (dvd DefaultValueDecoders) decodeD(dc DecodeContext, vr bsonrw.ValueReader,
 	}
 
 	return dvd.decodeElemsFromDocumentReader(dc, dr)
+}
+
+func (DefaultValueDecoders) decodeMapFromDocumentReader(dc DecodeContext, dr bsonrw.DocumentReader) (*reflect.Value, error) {
+	decoder, err := dc.LookupDecoder(tEmpty)
+	if err != nil {
+		return nil, err
+	}
+
+	elem := reflect.Value{}
+	for {
+		key, vr, err := dr.ReadElement()
+		if err == bsonrw.ErrEOD {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		val := reflect.New(tEmpty).Elem()
+		err = decoder.DecodeValue(dc, vr, val)
+		if err != nil {
+			return nil, err
+		}
+
+		elem.SetMapIndex(reflect.ValueOf(key), val)
+	}
+
+	return &elem, nil
 }
 
 func (DefaultValueDecoders) decodeElemsFromDocumentReader(dc DecodeContext, dr bsonrw.DocumentReader) ([]reflect.Value, error) {
