@@ -16,10 +16,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mongodb/mongo-go-driver/bson/bsonrw"
-	"github.com/mongodb/mongo-go-driver/bson/bsontype"
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
-	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/zhenxxin/mongo-go-driver/bson/bsonrw"
+	"github.com/zhenxxin/mongo-go-driver/bson/bsontype"
+	"github.com/zhenxxin/mongo-go-driver/bson/primitive"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx/bsoncore"
 )
 
 var defaultValueEncoders DefaultValueEncoders

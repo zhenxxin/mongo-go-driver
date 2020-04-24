@@ -12,11 +12,11 @@ import (
 
 	"strings"
 
-	"github.com/mongodb/mongo-go-driver/internal"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
-	. "github.com/mongodb/mongo-go-driver/x/mongo/driver/auth"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
-	"github.com/mongodb/mongo-go-driver/x/network/wiremessage"
+	"github.com/zhenxxin/mongo-go-driver/internal"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx"
+	. "github.com/zhenxxin/mongo-go-driver/x/mongo/driver/auth"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/x/network/wiremessage"
 )
 
 func TestMongoDBCRAuthenticator_Fails(t *testing.T) {

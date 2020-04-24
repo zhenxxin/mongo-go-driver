@@ -13,11 +13,11 @@ import (
 
 	"io"
 
-	"github.com/mongodb/mongo-go-driver/bson"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
-	"github.com/mongodb/mongo-go-driver/x/network/command"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
-	"github.com/mongodb/mongo-go-driver/x/network/wiremessage"
+	"github.com/zhenxxin/mongo-go-driver/bson"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx"
+	"github.com/zhenxxin/mongo-go-driver/x/network/command"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/x/network/wiremessage"
 )
 
 // MONGODBCR is the mechanism name for MONGODB-CR.

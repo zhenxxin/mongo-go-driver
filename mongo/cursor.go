@@ -11,10 +11,10 @@ import (
 	"errors"
 	"io"
 
-	"github.com/mongodb/mongo-go-driver/bson"
-	"github.com/mongodb/mongo-go-driver/bson/bsoncodec"
-	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
-	"github.com/mongodb/mongo-go-driver/x/mongo/driver"
+	"github.com/zhenxxin/mongo-go-driver/bson"
+	"github.com/zhenxxin/mongo-go-driver/bson/bsoncodec"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/zhenxxin/mongo-go-driver/x/mongo/driver"
 )
 
 // Cursor is used to iterate a stream of documents. Each document is decoded into the result

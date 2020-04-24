@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/mongodb/mongo-go-driver/bson/bsoncodec"
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/zhenxxin/mongo-go-driver/bson/bsoncodec"
+	"github.com/zhenxxin/mongo-go-driver/bson/primitive"
 	"github.com/stretchr/testify/require"
 )
 

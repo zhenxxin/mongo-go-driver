@@ -10,11 +10,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/mongodb/mongo-go-driver/x/network/address"
-	"github.com/mongodb/mongo-go-driver/x/network/command"
-	"github.com/mongodb/mongo-go-driver/x/network/connection"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
-	"github.com/mongodb/mongo-go-driver/x/network/wiremessage"
+	"github.com/zhenxxin/mongo-go-driver/x/network/address"
+	"github.com/zhenxxin/mongo-go-driver/x/network/command"
+	"github.com/zhenxxin/mongo-go-driver/x/network/connection"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/x/network/wiremessage"
 )
 
 // AuthenticatorFactory constructs an authenticator.

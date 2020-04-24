@@ -9,12 +9,12 @@ package session
 import (
 	"errors"
 
-	"github.com/mongodb/mongo-go-driver/bson"
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
-	"github.com/mongodb/mongo-go-driver/mongo/readconcern"
-	"github.com/mongodb/mongo-go-driver/mongo/readpref"
-	"github.com/mongodb/mongo-go-driver/mongo/writeconcern"
-	"github.com/mongodb/mongo-go-driver/x/mongo/driver/uuid"
+	"github.com/zhenxxin/mongo-go-driver/bson"
+	"github.com/zhenxxin/mongo-go-driver/bson/primitive"
+	"github.com/zhenxxin/mongo-go-driver/mongo/readconcern"
+	"github.com/zhenxxin/mongo-go-driver/mongo/readpref"
+	"github.com/zhenxxin/mongo-go-driver/mongo/writeconcern"
+	"github.com/zhenxxin/mongo-go-driver/x/mongo/driver/uuid"
 )
 
 // ErrSessionEnded is returned when a client session is used after a call to endSession().

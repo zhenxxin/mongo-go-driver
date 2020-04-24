@@ -16,14 +16,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mongodb/mongo-go-driver/internal/testutil"
-	"github.com/mongodb/mongo-go-driver/internal/testutil/helpers"
-	"github.com/mongodb/mongo-go-driver/mongo"
-	"github.com/mongodb/mongo-go-driver/mongo/options"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
+	"github.com/zhenxxin/mongo-go-driver/internal/testutil"
+	"github.com/zhenxxin/mongo-go-driver/internal/testutil/helpers"
+	"github.com/zhenxxin/mongo-go-driver/mongo"
+	"github.com/zhenxxin/mongo-go-driver/mongo/options"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mongodb/mongo-go-driver/internal/testutil/israce"
+	"github.com/zhenxxin/mongo-go-driver/internal/testutil/israce"
 	"golang.org/x/net/context"
 )
 

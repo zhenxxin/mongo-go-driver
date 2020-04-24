@@ -16,9 +16,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mongodb/mongo-go-driver/internal/testutil/helpers"
-	"github.com/mongodb/mongo-go-driver/x/network/connstring"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/internal/testutil/helpers"
+	"github.com/zhenxxin/mongo-go-driver/x/network/connstring"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
 	"github.com/stretchr/testify/require"
 )
 

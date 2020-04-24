@@ -10,9 +10,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/mongodb/mongo-go-driver/internal/testutil"
-	"github.com/mongodb/mongo-go-driver/mongo"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
+	"github.com/zhenxxin/mongo-go-driver/internal/testutil"
+	"github.com/zhenxxin/mongo-go-driver/mongo"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx"
 )
 
 const (

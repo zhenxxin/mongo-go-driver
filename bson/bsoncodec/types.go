@@ -12,8 +12,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
-	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/zhenxxin/mongo-go-driver/bson/primitive"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx/bsoncore"
 )
 
 var ptBool = reflect.TypeOf((*bool)(nil))

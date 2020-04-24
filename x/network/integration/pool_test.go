@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mongodb/mongo-go-driver/x/network/address"
-	"github.com/mongodb/mongo-go-driver/x/network/command"
-	"github.com/mongodb/mongo-go-driver/x/network/connection"
+	"github.com/zhenxxin/mongo-go-driver/x/network/address"
+	"github.com/zhenxxin/mongo-go-driver/x/network/command"
+	"github.com/zhenxxin/mongo-go-driver/x/network/connection"
 )
 
 func TestPool(t *testing.T) {

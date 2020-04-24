@@ -7,7 +7,7 @@
 package bsonx
 
 import (
-	"github.com/mongodb/mongo-go-driver/bson/primitive"
+	"github.com/zhenxxin/mongo-go-driver/bson/primitive"
 	"testing"
 )
 

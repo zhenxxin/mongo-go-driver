@@ -13,9 +13,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mongodb/mongo-go-driver/x/network/address"
-	"github.com/mongodb/mongo-go-driver/x/network/command"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/x/network/address"
+	"github.com/zhenxxin/mongo-go-driver/x/network/command"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
 )
 
 const testTimeout = 2 * time.Second

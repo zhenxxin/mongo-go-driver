@@ -3,7 +3,7 @@ package util
 import (
 	"reflect"
 
-	"github.com/mongodb/mongo-go-driver/bson/bsontype"
+	"github.com/zhenxxin/mongo-go-driver/bson/bsontype"
 )
 
 // MapType use map decoder validation type

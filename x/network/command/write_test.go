@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/mongodb/mongo-go-driver/mongo/writeconcern"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
-	"github.com/mongodb/mongo-go-driver/x/bsonx/bsoncore"
-	"github.com/mongodb/mongo-go-driver/x/network/description"
-	"github.com/mongodb/mongo-go-driver/x/network/wiremessage"
+	"github.com/zhenxxin/mongo-go-driver/mongo/writeconcern"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx"
+	"github.com/zhenxxin/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/zhenxxin/mongo-go-driver/x/network/description"
+	"github.com/zhenxxin/mongo-go-driver/x/network/wiremessage"
 )
 
 func TestWrite(t *testing.T) {
